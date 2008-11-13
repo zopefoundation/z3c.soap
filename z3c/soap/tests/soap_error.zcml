@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:soap="http://namespaces.zope.org/soap"
+           i18n_domain="zope">
+
+  <include package="soap" file="meta.zcml"/>
+
+  <soap:view
+        name="test"
+        factory="zope.component.tests.views.V1"
+        for="zope.component.tests.views.IC"
+        methods="action index" />
+
+</configure>

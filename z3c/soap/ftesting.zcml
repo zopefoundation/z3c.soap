@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           i18n_domain="z3c.soap">
+
+     <include package="Products.Five"/>
+
+     <include package="z3c.soap" file="meta.zcml" />
+
+</configure>
+
