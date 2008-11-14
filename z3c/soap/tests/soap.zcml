@@ -4,7 +4,7 @@
 
   <include package="z3c.soap" file="meta.zcml"/>
   <include package="zope.app.security" file="meta.zcml"/>
- 
+  <include package="z3c.soap" />
   <soap:view
       name="test"
       class="zope.app.component.tests.views.V1"

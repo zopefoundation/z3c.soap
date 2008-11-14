@@ -18,8 +18,7 @@ $Id$
 """
 
 from zope.interface import Interface
-from zope.security.checker import CheckerPublic #, Checker
-#from zope.location import Location
+from zope.security.checker import CheckerPublic
 from zope.component.interface import provideInterface
 from Products.Five.security import protectClass, protectName
 from zope.app.publisher.browser.viewmeta import _handle_for
@@ -64,19 +63,6 @@ def view(_context, for_=None, interface=None, methods=None,
     cdict = getSecurityInfo(class_)
 
     if name:
-        # Register a single view
-#        if permission:
-#            checker = Checker(require)
-#
-#            def proxyView(context, request, class_=class_, checker=checker):
-#                view = class_(context, request)
-#                # We need this in case the resource gets unwrapped and
-#                # needs to be rewrapped
-#                view.__Security_checker__ = checker
-#                return view
-#
-#            class_ = proxyView
-        cdict = getSecurityInfo(class_)
         cdict['__name__'] = name
         new_class = makeClass(class_.__name__,
                               (class_, BrowserView), cdict)
@@ -115,22 +101,13 @@ def view(_context, for_=None, interface=None, methods=None,
                 args = (new_class, attr, CheckerPrivateId))
 
     else:
-#        if permission:
-#            checker = Checker({'__call__': permission})
-#        else:
         for name in require:
-            # create a new callable class with a security checker; mix
-            # in zope.app.location.Location so that the view inherits
-            # a security context
             cdict.update({'__page_attribute__': name,
                           '__name__': name})
             new_class = makeClass(class_.__name__,
                                   (class_, ViewMixinForAttributes),
                                   cdict)
 
-            # in case the attribute does not provide a docstring,
-            # ZPublisher refuses to publish it.  So, as a workaround,
-            # we provide a stub docstring
             func = getattr(new_class, name)
             if not func.__doc__:
                 # cannot test for MethodType/UnboundMethod here

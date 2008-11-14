@@ -80,6 +80,7 @@ view for folder objects and call it on the root folder:
   ...
   ...   <include package="z3c.soap" file="meta.zcml" />
   ...   <include package="Products.Five" file="meta.zcml" />
+  ...   <include package="z3c.soap"/>
   ...
   ...   <soap:view
   ...       for="OFS.interfaces.IFolder"
@@ -87,7 +88,7 @@ view for folder objects and call it on the root folder:
   ...                echoFloat echoFloatArray echoStruct echoVoid echoBase64
   ...                echoDate echoDecimal echoBoolean ValidateEmailRequest"
   ...       class="z3c.soap.README.EchoView"
-  ...       permission="cmf.ManageProperties"
+  ...       permission="zope2.SOAPAccess"
   ...       />
   ...
   ...   <utility

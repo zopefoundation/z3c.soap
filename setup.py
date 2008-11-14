@@ -29,6 +29,7 @@ setup(name='z3c.soap',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.CMFCore==2.1.1',
           'Products.PluggableAuthService==1.5.3',
           'ZSI'],
       entry_points="""
