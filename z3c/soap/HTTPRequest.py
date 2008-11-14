@@ -54,6 +54,7 @@ def processInputs(
         other=self.other
         taintedform=self.taintedform
 
+
         meth=None
         fs=FieldStorage(fp=fp,environ=environ,keep_blank_values=1)
         if not hasattr(fs,'list') or fs.list is None:
@@ -721,6 +722,6 @@ def processInputs(
 HTTPRequest.processInputs = processInputs
 import logging
 logger = logging.getLogger('Zope')
-logger.info("""SOAPSupport: modified ZPublisher.HTTPRequest.processInputs, Dirk Datzert, 2007-02-06, version for Zope-2.8.x/Zope-2.9.x/Zope-2.10.x\n""")
+logger.info("z3c.soap: modified ZPublisher.HTTPRequest.processInputs")
 
 # vi:ts=4

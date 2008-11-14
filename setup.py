@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import os
 
-version = '0.1'
+version = '0.2'
 
 setup(name='z3c.soap',
       version=version,
@@ -29,6 +29,7 @@ setup(name='z3c.soap',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'Products.PluggableAuthService==1.5.3',
           'ZSI'],
       entry_points="""
       # -*- Entry points: -*-

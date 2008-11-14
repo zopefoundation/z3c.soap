@@ -91,8 +91,6 @@ class SOAPResponse:
     def setBody(self, body, title='', is_error=0, bogus_str_search=None):
         if isinstance(body, Fault):
             # Convert Fault object to SOAP response.
-            #body = buildSOAP(args=body, config=Config)
-            body = ZSI.FaultFromException(body, 0)
             body = body.AsSOAP()
         else:
             # Marshall our body as an SOAP response. Strings will be sent
@@ -101,7 +99,6 @@ class SOAPResponse:
             try:
                 target = self._method
                 body = premarshal(body)
-                #output = StringIO()
                 result = body
                 if hasattr(result, 'typecode'):
                     tc = result.typecode
@@ -122,35 +119,27 @@ class SOAPResponse:
 
     def exception(self, fatal=0, info=None,
                   absuri_match=None, tag_search=None):
-        # Fetch our exception info. t is type, v is value and tb is the
-        # traceback object.
-        if type(info) is type(()) and len(info)==3:
+        if isinstance(info, tuple) and len(info)==3:
             t, v, tb = info
         else:
             t, v, tb = sys.exc_info()
 
         content = "".join(traceback.format_tb(tb))
         logger = logging.getLogger('Zope')
-        logger.info('SOAPException: %s' % tb)
+        logger.info('SOAPException: %s' % content)
+        f=None
         if t == 'Unauthorized' or t == Unauthorized or (
            isinstance(t, types.ClassType) and issubclass(t, Unauthorized)):
             realm=self._real.realm
             if realm:
                 self._real.setHeader('WWW-Authenticate',
                                      'basic realm="%s"' % realm, 1)
-                self._real.setStatus(401)
-            return None
-
-        # Create an appropriate Fault object. Unfortunately, we throw away
-        # most of the debugging information. More useful error reporting is
-        # left as an exercise for the reader.
-        f=None
-        if not isinstance(v, Fault):
+            self._real.setStatus(401)
+            f = ZSI.Fault(Fault.Server, "Not authorized")
+        elif not isinstance(v, Fault):
+            self._real.setStatus(500)
             f = ZSI.FaultFromException(u"%s : %s" % (v, content), 0)
-        # Do the damage.
         self.setBody(f)
-        self._real.setStatus(500)
-
         return tb
 
     def _setHeader(self):

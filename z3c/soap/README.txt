@@ -164,7 +164,11 @@ when we registered it:
   ... </SOAP-ENV:Envelope>
   ... """)
   HTTP/1.0 401 Unauthorized
-  ...
+  Content-Length: ...
+  Content-Type: text/xml
+  Www-Authenticate: basic realm="Zope2"
+  <BLANKLINE>
+  <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Server</faultcode><faultstring>Not authorized</faultstring></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
 
 
 Parameters
@@ -575,16 +579,6 @@ Datetimes appear to work:
 
 
 
-Complex Types
--------------
-
-For ZSI to successfully marshal complex values (instances of classes),
-you must define a typecode that describes the object (see the ZSI docs
-for details on defining typecodes). Once the typecode is defined, it must
-be accessible through an instance via the attribute name 'typecode' to
-be automatically marshalled.
-
-
 Faults
 ------
 
@@ -617,15 +611,19 @@ directly. Either case causes a fault response to be returned:
   Content-Length: ...
   Content-Type: text/xml
   <BLANKLINE>
-  <SOAP-ENV:Envelope ...
-  Processing Failure
-  <BLANKLINE>
-  Unparseable integer
+  <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Server</faultcode><faultstring>Processing Failure</faultstring><detail><ZSI:FaultDetail><ZSI:string>
   ...
 
 
 Complex Types
 -------------
+
+For ZSI to successfully marshal complex values (instances of classes),
+you must define a typecode that describes the object (see the ZSI docs
+for details on defining typecodes). Once the typecode is defined, it must
+be accessible through an instance via the attribute name 'typecode' to
+be automatically marshalled.
+
 
   >>> print http(r"""
   ... POST /test_folder_1_ HTTP/1.0
