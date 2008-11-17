@@ -130,10 +130,6 @@ class SOAPResponse:
         f=None
         if t == 'Unauthorized' or t == Unauthorized or (
            isinstance(t, types.ClassType) and issubclass(t, Unauthorized)):
-            realm=self._real.realm
-            if realm:
-                self._real.setHeader('WWW-Authenticate',
-                                     'basic realm="%s"' % realm, 1)
             self._real.setStatus(401)
             f = ZSI.Fault(Fault.Server, "Not authorized")
         elif not isinstance(v, Fault):

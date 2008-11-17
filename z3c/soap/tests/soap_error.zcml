@@ -2,7 +2,7 @@
            xmlns:soap="http://namespaces.zope.org/soap"
            i18n_domain="zope">
 
-  <include package="soap" file="meta.zcml"/>
+  <include package="z3c.soap" file="meta.zcml"/>
 
   <soap:view
         name="test"

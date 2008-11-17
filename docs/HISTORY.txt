@@ -6,6 +6,10 @@ Changelog
 
 * Handle correctly Unauthorized exception
 
+* Add SOAP Access permission
+
+* Remove realm from response if Unauthorized is raised
+
 0.1 - (2008-11-13)
 ------------------
 
