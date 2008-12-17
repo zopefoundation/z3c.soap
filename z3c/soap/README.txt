@@ -14,6 +14,7 @@ This package is largely inspired from Zope 3 SOAP (http://svn.zope.org/soap).
 
 Let's write a simple SOAP view that echoes various types of input:
 
+  >>> import ZSI
   >>> from Products.Five import BrowserView
   >>> class EchoView(BrowserView):
   ...
@@ -62,6 +63,10 @@ Let's write a simple SOAP view that echoes various types of input:
   ...         mail = requestData._Email
   ...         response._Status = '%s is OK' % mail
   ...         return response
+  ...
+  ...     def testFault(self):
+  ...         raise ZSI.Fault(ZSI.Fault.Client, "Testing the zsi fault")
+
 
 
 Now we'll register it as a SOAP view. For now we'll just register the
@@ -86,7 +91,8 @@ view for folder objects and call it on the root folder:
   ...       for="OFS.interfaces.IFolder"
   ...       methods="echoString echoStringArray echoInteger echoIntegerArray
   ...                echoFloat echoFloatArray echoStruct echoVoid echoBase64
-  ...                echoDate echoDecimal echoBoolean ValidateEmailRequest"
+  ...                echoDate echoDecimal echoBoolean ValidateEmailRequest
+  ...                testFault"
   ...       class="z3c.soap.README.EchoView"
   ...       permission="zope2.SOAPAccess"
   ...       />
@@ -614,6 +620,34 @@ directly. Either case causes a fault response to be returned:
   <BLANKLINE>
   <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Server</faultcode><faultstring>Processing Failure</faultstring><detail><ZSI:FaultDetail><ZSI:string>
   ...
+
+Here is a ZSI Fault response:
+
+  >>> print http(r"""
+  ... POST /test_folder_1_ HTTP/1.0
+  ... Authorization: Basic %s:%s
+  ... Content-Length: 104
+  ... Content-Type: text/xml
+  ... SOAPAction: /
+  ...
+  ... <?xml version="1.0"?>
+  ... <SOAP-ENV:Envelope
+  ...  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"
+  ...  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  ...  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  ...  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  ...  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  ...  <SOAP-ENV:Body>
+  ...    <m:testFault xmlns:m="http://www.soapware.org/">
+  ...    </m:testFault>
+  ...  </SOAP-ENV:Body>
+  ... </SOAP-ENV:Envelope>
+  ... """ % (user_name, user_password), handle_errors=True)
+  HTTP/1.0 200 OK
+  Content-Length: 488
+  Content-Type: text/xml
+  <BLANKLINE>
+  <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><SOAP-ENV:Fault><faultcode>SOAP-ENV:Client</faultcode><faultstring>Testing the zsi fault</faultstring></SOAP-ENV:Fault></SOAP-ENV:Body></SOAP-ENV:Envelope>
 
 
 Complex Types

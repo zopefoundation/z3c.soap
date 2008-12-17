@@ -127,7 +127,7 @@ class SOAPResponse:
         content = "".join(traceback.format_tb(tb))
         logger = logging.getLogger('Zope')
         logger.info('SOAPException: %s' % content)
-        f=None
+        f=v
         if t == 'Unauthorized' or t == Unauthorized or (
            isinstance(t, types.ClassType) and issubclass(t, Unauthorized)):
             self._real.setStatus(401)

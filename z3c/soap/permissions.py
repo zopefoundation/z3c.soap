@@ -19,4 +19,4 @@ security = ModuleSecurityInfo('z3c.soap.permissions')
 
 security.declarePublic('SOAP Access')
 SoapAccess = 'SOAP Access'
-setDefaultRoles(SoapAccess, ('Authenticated', ))
+setDefaultRoles(SoapAccess, ('Manager', ))
