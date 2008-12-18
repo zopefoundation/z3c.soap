@@ -36,11 +36,22 @@ class SOAPParser(object):
             params = ()
         else:
             resolver = queryUtility(IZSIRequestType, name=self.target)
+            if resolver is None:
+                targetWithNamespace = "%s/%s" % (self.root.namespaceURI,
+                                                 self.target)
+                resolver = queryUtility(IZSIRequestType,
+                                        name=targetWithNamespace)
             if resolver and hasattr(resolver, 'typecode'):
                 tc = resolver.typecode
                 params = [resolver.typecode.parse(self.root, self.parsed)]
 
                 resolver = queryUtility(IZSIResponseType, name=self.target)
+                if resolver is None:
+                    targetWithNamespace = "%s/%s" % (self.root.namespaceURI,
+                                                 self.target)
+
+                    resolver = queryUtility(IZSIResponseType,
+                                            name=targetWithNamespace)
                 params.append(resolver)
             else:
                 tc = TC.Any()
