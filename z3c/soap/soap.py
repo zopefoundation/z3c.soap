@@ -118,7 +118,7 @@ class SOAPResponse:
                     result = [result]
                 sw = SoapWriter(nsdict={}, header=True, outputclass=None,
                         encodingStyle=None)
-                body = sw.serialize(result, tc).body
+                body = str(sw.serialize(result, tc))
             except:
                 self.exception()
                 return
