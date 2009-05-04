@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.4 - (2009-05-04)
+------------------
+
+* return correctly the serialized string
+
 0.3 - (2008-12-17)
 ------------------
 
