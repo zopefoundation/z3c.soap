@@ -100,6 +100,13 @@ def test_suite():
                     doctest.REPORT_ONLY_FIRST_FAILURE|
                     doctest.NORMALIZE_WHITESPACE,
         setUp=setUp, tearDown=tearDown, globs=globs)
+    ftest = FunctionalDocFileSuite(
+        'mem.txt',
+        optionflags=doctest.ELLIPSIS|
+                    doctest.REPORT_NDIFF|
+                    doctest.REPORT_ONLY_FIRST_FAILURE|
+                    doctest.NORMALIZE_WHITESPACE,
+        setUp=setUp, tearDown=tearDown, globs=globs)
     ftest.layer = z3c_soap_functional_layer
     return ftest
 

@@ -1,0 +1,58 @@
+Mem tests
+=========
+
+  >>> import sys
+  >>> from xml.dom.minidom import Element, Node
+  >>> print sys.getrefcount(Element)
+  5
+  >>> from z3c.soap.tests.mailvalidation import ns1
+  >>> from ZSI import SoapWriter
+  >>> from ZSI import TC
+  >>> element = ns1.ValidateEmailRequest_Dec().pyclass()
+  >>> element._Email = 'foo@bar.be'
+  >>> sw = SoapWriter(nsdict={}, header=True, outputclass=None,
+  ...                 encodingStyle=None)
+  >>> tc = TC.Any(aslist=1, pname='test')
+
+We serialize more than one copy of the previously created element
+
+  >>> res = sw.serialize([element, element, element, element, element], tc)
+  >>> print sys.getrefcount(Element)
+  19
+  >>> print sw
+  <SOAP-ENV:Envelope xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ZSI="http://www.zolera.com/schemas/ZSI/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Header></SOAP-ENV:Header><SOAP-ENV:Body><test xmlns:ns1="urn:ws-xwebservices-com:XWebEmailValidation:EmailValidation:v2:Messages" SOAP-ENC:arrayType="xsd:anyType[5]" xsi:type="SOAP-ENC:Array"><ns1:element><ns1:Email xsi:type="xsd:string">foo@bar.be</ns1:Email></ns1:element><ns1:element><ns1:Email xsi:type="xsd:string">foo@bar.be</ns1:Email></ns1:element><ns1:element><ns1:Email xsi:type="xsd:string">foo@bar.be</ns1:Email></ns1:element><ns1:element><ns1:Email xsi:type="xsd:string">foo@bar.be</ns1:Email></ns1:element><ns1:element><ns1:Email xsi:type="xsd:string">foo@bar.be</ns1:Email></ns1:element></test></SOAP-ENV:Body></SOAP-ENV:Envelope>
+  >>> print sys.getrefcount(Element)
+  19
+  >>> del res
+  >>> del sw.body.node
+  >>> del sw.body
+  >>> del sw.dom.node
+  >>> del sw.dom
+  >>> del sw
+  >>> print sys.getrefcount(Element)
+  19
+
+So when a soapwriter is deleted there are still 19 references to Element active (this can be a
+disaster with large xml).
+
+What if we unlink the nodes first::
+
+  >>> sw = SoapWriter(nsdict={}, header=True, outputclass=None,
+  ...                 encodingStyle=None)
+  >>> res = sw.serialize([element, element, element, element, element], tc)
+  >>> print sys.getrefcount(Element)
+  33
+  >>> Node.unlink(sw.body.node)
+  >>> Node.unlink(sw.dom.node)
+  >>> print sys.getrefcount(Element)
+  22
+  >>> del res
+  >>> del sw.body.node
+  >>> del sw.body
+  >>> del sw.dom.node
+  >>> del sw.dom
+  >>> del sw
+  >>> print sys.getrefcount(Element)
+  20
+
+There are thus less references to Element when using unlink before deleting the soapwriter object.

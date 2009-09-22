@@ -1,6 +1,12 @@
 Changelog
 =========
 
+0.5 - (2009-09-22)
+------------------
+
+* fix & test memory leak in zsi soapwriter
+* buildout update
+
 0.4 - (2009-05-04)
 ------------------
 

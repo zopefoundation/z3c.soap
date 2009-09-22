@@ -685,3 +685,4 @@ be automatically marshalled.
   Content-Type: text/xml
   <BLANKLINE>
   ...jfroche@affinitic.be is OK...
+

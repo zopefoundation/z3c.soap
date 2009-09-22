@@ -8,6 +8,8 @@ setup(name='z3c.soap',
       description="Soap using ZSI in Zope 2",
       long_description=open(os.path.join("z3c", "soap",
                                          "README.txt")).read() + "\n" +
+                       open(os.path.join("z3c", "soap",
+                                         "mem.txt")).read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       classifiers=[
         "Environment :: Web Environment",

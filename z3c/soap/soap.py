@@ -20,6 +20,7 @@ import logging
 import traceback
 from zope.interface import implements
 from z3c.soap.interfaces import ISOAPResponse
+from xml.dom.minidom import Node
 
 
 class SOAPParser(object):
@@ -119,6 +120,12 @@ class SOAPResponse:
                 sw = SoapWriter(nsdict={}, header=True, outputclass=None,
                         encodingStyle=None)
                 body = str(sw.serialize(result, tc))
+                Node.unlink(sw.dom.node)
+                Node.unlink(sw.body.node)
+                del sw.dom.node
+                del sw.body.node
+                del sw.dom
+                del sw.body
             except:
                 self.exception()
                 return
