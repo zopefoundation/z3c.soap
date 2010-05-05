@@ -19,7 +19,10 @@ $Id$
 
 from zope.configuration import xmlconfig
 from zope.configuration.exceptions import ConfigurationError
-from zope.app.component.tests.views import IC
+try:
+	from zope.app.component.tests.views import IC
+except ImportError:
+	from zope.component.testfiles.views import IC
 from zope.component import getMultiAdapter, queryMultiAdapter
 from zope.app.testing.placelesssetup import PlacelessSetup
 from z3c.soap.interfaces import ISOAPRequest
@@ -29,6 +32,12 @@ import unittest
 import z3c.soap.tests
 from zope.publisher.browser import TestRequest
 
+XMLCONFIG = "soap.zcml"
+try:
+	import zope.app.component.tests.views
+except ImportError:
+	XMLCONFIG = "soap212.zcml"
+	
 request = TestRequest(ISOAPRequest)
 alsoProvides(request, ISOAPRequest)
 
@@ -45,19 +54,19 @@ class DirectivesTest(PlacelessSetup, unittest.TestCase):
     def testView(self):
         self.assertEqual(
             queryMultiAdapter((ob, request), name='test'), None)
-        xmlconfig.file("soap.zcml", z3c.soap.tests)
+        xmlconfig.file(XMLCONFIG, z3c.soap.tests)
         self.assertEqual(
             str(queryMultiAdapter((ob, request), name='test').__class__),
             "<class 'Products.Five.metaclass.V1'>")
 
     def testInterfaceAndAttributeProtectedView(self):
-        xmlconfig.file("soap.zcml", z3c.soap.tests)
+        xmlconfig.file(XMLCONFIG, z3c.soap.tests)
         v = getMultiAdapter((ob, request), name='test4')
         self.assertEqual(v.index(), 'V1 here')
         self.assertEqual(v.action(), 'done')
 
     def testDuplicatedInterfaceAndAttributeProtectedView(self):
-        xmlconfig.file("soap.zcml", z3c.soap.tests)
+        xmlconfig.file(XMLCONFIG, z3c.soap.tests)
         v = getMultiAdapter((ob, request), name='test5')
         self.assertEqual(v.index(), 'V1 here')
         self.assertEqual(v.action(), 'done')
@@ -67,7 +76,7 @@ class DirectivesTest(PlacelessSetup, unittest.TestCase):
                           "soap_error.zcml", z3c.soap.tests)
 
     def test_no_name(self):
-        xmlconfig.file("soap.zcml", z3c.soap.tests)
+        xmlconfig.file(XMLCONFIG, z3c.soap.tests)
         v = getMultiAdapter((ob, request), name='index')
         self.assertEqual(v(), 'V1 here')
         v = getMultiAdapter((ob, request), name='action')

@@ -21,7 +21,10 @@ import sys
 import os
 import zope.interface
 from zope.testing import doctest
-from zope.app.folder.folder import IFolder
+try:
+    from zope.app.folder.folder import IFolder
+except:
+    from zope.site.interfaces import IFolder
 from zope.app.testing.functional import ZCMLLayer
 from zope.app.testing import ztapi
 from z3c.soap.interfaces import ISOAPRequest
@@ -91,8 +94,8 @@ z3c_soap_functional_layer = ZCMLLayer(filename,
 
 
 def test_suite():
-    #from zope.app.testing.functional import FunctionalDocFileSuite
-    from Testing.ZopeTestCase import FunctionalDocFileSuite
+    from zope.app.testing.functional import FunctionalDocFileSuite
+    #from Testing.ZopeTestCase import FunctionalDocFileSuite
     ftest = FunctionalDocFileSuite(
         'README.txt',
         optionflags=doctest.ELLIPSIS|

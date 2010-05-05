@@ -4,7 +4,7 @@ Changelog
 0.5.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+* Added Zope 2.12 support (thanks to patch from E. Leddy)
 
 
 0.5.1 (2009-12-07)

@@ -33,8 +33,5 @@ setup(name='z3c.soap',
           'setuptools',
           'Products.CMFCore',
           'Products.PluggableAuthService',
-          'ZSI'],
-      entry_points="""
-      # -*- Entry points: -*-
-      """,
-      )
+          'zope.app.folder',
+          'ZSI'])

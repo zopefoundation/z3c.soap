@@ -18,7 +18,18 @@ $Id$
 """
 
 from zope.publisher.interfaces.http import IHTTPRequest, IHTTPResponse
-from zope.component.interfaces import IView, IPresentation
+
+try:
+	from zope.component.interfaces import IView
+except ImportError:
+	from zope.publisher.interfaces import IView
+	
+try:
+	from zope.component.interfaces import IPresentation
+except ImportError:
+	from zope.publisher.interfaces import IView as IPresentation
+	
+
 from zope.publisher.interfaces import IPublishTraverse
 from zope.publisher.interfaces import IPublication
 from zope.interface import Interface
@@ -42,8 +53,7 @@ class ISOAPRequest(IHTTPRequest):
 class ISOAPResponse(IHTTPResponse):
     """SOAP Response"""
 
-
-class ISOAPPresentation(IPresentation):
+class ISOAPPresentation(IView):
     """SOAP presentation"""
 
 
