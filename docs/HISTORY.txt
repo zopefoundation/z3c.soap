@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.2 (unreleased)
+0.5.2 (2010-05-05)
 ------------------
 
 * Added Zope 2.12 support (thanks to patch from E. Leddy)
