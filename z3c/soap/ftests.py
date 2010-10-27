@@ -17,10 +17,10 @@ Functional tests for SOAP.
 $Id$
 """
 
-import sys
+import doctest
 import os
+import sys
 import zope.interface
-from zope.testing import doctest
 try:
     from zope.app.folder.folder import IFolder
 except:
