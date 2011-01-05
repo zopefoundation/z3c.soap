@@ -2,7 +2,9 @@
            i18n_domain="z3c.soap">
 
   <include file="meta.zcml"/>
-
+  <include package="zope.component" file="meta.zcml"/>
+  <include package="zope.component"/>
+  <include package="collective.autopermission"/>
   <permission
       id="zope2.SOAPAccess"
       title="SOAP Access"/>

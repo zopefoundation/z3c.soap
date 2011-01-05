@@ -41,11 +41,11 @@ What if we unlink the nodes first::
   ...                 encodingStyle=None)
   >>> res = sw.serialize([element, element, element, element, element], tc)
   >>> print sys.getrefcount(Element)
-  33
+  19
   >>> Node.unlink(sw.body.node)
   >>> Node.unlink(sw.dom.node)
   >>> print sys.getrefcount(Element)
-  22
+  8
   >>> del res
   >>> del sw.body.node
   >>> del sw.body
@@ -53,6 +53,6 @@ What if we unlink the nodes first::
   >>> del sw.dom
   >>> del sw
   >>> print sys.getrefcount(Element)
-  20
+  6
 
 There are thus less references to Element when using unlink before deleting the soapwriter object.

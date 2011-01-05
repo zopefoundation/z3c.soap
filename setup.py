@@ -29,9 +29,10 @@ setup(name='z3c.soap',
       namespace_packages=['z3c'],
       include_package_data=True,
       zip_safe=False,
+      extras_require=dict(test=['zope.testing',
+                                'zope.app.folder']),
       install_requires=[
           'setuptools',
-          'Products.CMFCore',
+          'collective.autopermission',
           'Products.PluggableAuthService',
-          'zope.app.folder',
           'ZSI'])

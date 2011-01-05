@@ -4,6 +4,8 @@ Changelog
 0.5.3 (unreleased)
 ------------------
 
+- Remove CMF dependency, use collective.autopermission to define permission
+
 - Using Python's ``doctest`` module instead of depreacted
   ``zope.testing.doctest``.
 
