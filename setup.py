@@ -30,9 +30,10 @@ setup(name='z3c.soap',
       include_package_data=True,
       zip_safe=False,
       extras_require=dict(test=['zope.testing',
-                                'zope.app.folder']),
+                                'zope.app.testing',
+                                'zope.app.folder',
+                                'zope.app.publication[test]']),
       install_requires=[
           'setuptools',
-          'collective.autopermission',
           'Products.PluggableAuthService',
-          'ZSI'])
+          'ZSI'],)
