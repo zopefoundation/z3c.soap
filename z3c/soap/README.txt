@@ -10,6 +10,9 @@ SOAP support is implemented in a way very similar to the standard Zope
 XML-RPC support.  To call methods via SOAP, you need to create and
 register SOAP views.
 
+Version >= 0.5.4 are intended to be used with Zope 2.13 and higher.
+Older versions (0.5.3 and under) should work correctly with Zope > 2.13
+
 This package is largely inspired from Zope 3 SOAP (http://svn.zope.org/soap).
 
 Let's write a simple SOAP view that echoes various types of input:
@@ -685,4 +688,3 @@ be automatically marshalled.
   Content-Type: text/xml
   <BLANKLINE>
   ...jfroche@affinitic.be is OK...
-
