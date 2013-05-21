@@ -11,7 +11,7 @@ XML-RPC support.  To call methods via SOAP, you need to create and
 register SOAP views.
 
 Version >= 0.5.4 are intended to be used with Zope 2.13 and higher.
-Older versions (0.5.3 and under) should work correctly with Zope > 2.13
+Older versions (0.5.3 and under) should work correctly with Zope < 2.13
 
 This package is largely inspired from Zope 3 SOAP (http://svn.zope.org/soap).
 
