@@ -1,10 +1,12 @@
 Changelog
 =========
 
-0.5.4 (unreleased)
+0.5.4 (2013-05-21)
 ------------------
 
-- Nothing changed yet.
+- Added Zope 2.13 support
+
+- Removed collective.autopermission dependency
 
 
 0.5.3 (2011-01-05)
@@ -56,4 +58,3 @@ Changelog
 ------------------
 
 * Initial release
-
