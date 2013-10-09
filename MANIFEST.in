@@ -1,4 +1,4 @@
-recursive-include src *
-recursive-include docs *
-include *
-global-exclude *pyc
+include *.cfg *.rst *.in *.txt
+graft docs
+graft z3c
+global-exclude *.pyc
