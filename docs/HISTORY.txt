@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.5.5 (unreleased)
+0.5.5 (2013-10-09)
 ------------------
 
 - Do not fail when importing _handle_for from zope.app.publisher.browser.viewmeta
