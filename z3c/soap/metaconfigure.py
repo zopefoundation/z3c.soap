@@ -21,13 +21,16 @@ from zope.interface import Interface
 from zope.security.checker import CheckerPublic
 from zope.component.interface import provideInterface
 from Products.Five.security import protectClass, protectName
-from zope.app.publisher.browser.viewmeta import _handle_for
+try:
+    from zope.app.publisher.browser.viewmeta import _handle_for
+except:
+    from zope.browserpage.metaconfigure import _handle_for
 
 # XXX handler is non-public.  Should call directives instead
 try:
-	from zope.app.component.metaconfigure import handler
+    from zope.app.component.metaconfigure import handler
 except ImportError:
-	from zope.component.zcml import handler
+    from zope.component.zcml import handler
 
 from inspect import ismethod
 from interfaces import ISOAPRequest
