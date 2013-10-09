@@ -4,8 +4,8 @@ Changelog
 0.5.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Do not fail when importing _handle_for from zope.app.publisher.browser.viewmeta
+  as it has been moved to zope.browserpage.metaconfigure
 
 0.5.4 (2013-05-21)
 ------------------
