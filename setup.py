@@ -14,7 +14,7 @@ setup(name='z3c.soap',
       classifiers=[
         "Environment :: Web Environment",
         "Framework :: Zope2",
-        "Framework :: Zope3",
+        "Framework :: Zope :: 3",
         "License :: OSI Approved :: Zope Public License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
